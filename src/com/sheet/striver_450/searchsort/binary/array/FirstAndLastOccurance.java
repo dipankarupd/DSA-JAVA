@@ -1,4 +1,4 @@
-package com.sheet.striver_450.searchsort.binary;
+package com.sheet.striver_450.searchsort.binary.array;
 
 import java.util.Arrays;
 

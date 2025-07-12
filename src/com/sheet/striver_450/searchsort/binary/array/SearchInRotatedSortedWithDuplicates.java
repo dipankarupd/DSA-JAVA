@@ -1,7 +1,7 @@
-package com.sheet.striver_450.searchsort.binary;
+package com.sheet.striver_450.searchsort.binary.array;
 
 
-import static com.sheet.striver_450.searchsort.binary.SearchInRotatedSortedArray.bSearch;
+import static com.sheet.striver_450.searchsort.binary.array.SearchInRotatedSortedArray.bSearch;
 
 public class SearchInRotatedSortedWithDuplicates {
     public static void main(String[] args) {

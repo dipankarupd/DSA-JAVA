@@ -1,8 +1,8 @@
-package com.sheet.striver_450.searchsort.binary;
+package com.sheet.striver_450.searchsort.binary.array;
 
 public class FindPivot {
     public static void main(String[] args) {
-        int[] arr = {11,12,13,15, 2,5,6,7};
+        int[] arr = {1,2,3,4,5};
         System.out.println(findPivot(arr));
     }
 

@@ -1,6 +1,6 @@
-package com.sheet.striver_450.searchsort.binary;
+package com.sheet.striver_450.searchsort.binary.array;
 
-import static com.sheet.striver_450.searchsort.binary.FirstAndLastOccurance.searchRange;
+import static com.sheet.striver_450.searchsort.binary.array.FirstAndLastOccurance.searchRange;
 
 public class CountOccurance {
     public static void main(String[] args) {
