@@ -1,0 +1,212 @@
+package com.sheet.striver_450.linkedlist.singly;
+
+public class LinkedList {
+    public ListNode head;
+    public int length;
+    LinkedList() {
+        this.head = null;
+        this.length = 0;
+    }
+//  insert the list
+    public void insert(int val) {
+        if(head == null) {
+            head = new ListNode(val);
+            length++;
+            return;
+        }
+        ListNode temp = head;
+
+        while(temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = new ListNode(val);
+        length++;
+    }
+
+
+//    print the list
+    public void printList() {
+        ListNode temp = head;
+
+        while (temp != null) {
+            System.out.print(temp.val+ " ");
+            temp = temp.next;
+        }
+        System.out.println();
+    }
+//    remove from the end
+    public int removeLast() throws Exception{
+        if (head == null) {
+            throw new RuntimeException("Empty list");
+        }
+
+        if(head.next == null) {
+            int res =  head.val;
+            head = null;
+            length --;
+            return res;
+        }
+
+        ListNode temp = head;
+        while (temp.next.next != null) {
+            temp = temp.next;
+        }
+        int res = temp.next.val;
+        temp.next = null;
+        length--;
+        return res;
+    }
+
+//    remove the head
+    public int removeHead() {
+        if (head == null) {
+            throw new RuntimeException("Empty list");
+        }
+        if(head.next == null) {
+            int res =  head.val;
+            head = null;
+            return res;
+        }
+
+        ListNode temp = head;
+        head = head.next;
+        temp.next = null;
+        return temp.val;
+    }
+
+
+//    remove at a certain index:
+    public int remove(int idx) throws Exception{
+
+        if(idx >= length) {
+            throw new Exception("Index out of bound");
+        }
+
+        if(idx == 0) {
+            return removeHead();
+        }
+        if(idx == length - 1) {
+            return removeLast();
+        }
+
+        int count = 0;
+        ListNode temp = head;
+        while(count < idx-1) {
+            temp=temp.next;
+            count+=1;
+        }
+
+        ListNode removed = temp.next;
+        temp.next = temp.next.next;
+        removed.next = null;
+        return removed.val;
+    }
+
+
+//    return the middle of the list
+//    https://leetcode.com/problems/middle-of-the-linked-list/description/
+    public ListNode middleNode(ListNode head) {
+         if(head == null) return null;
+         if(head.next == null) return head;
+         if(head.next.next == null) return head.next;
+
+         ListNode fast = head;
+         ListNode slow = head;
+
+         while (fast.next != null && fast.next.next != null ) {
+             fast = fast.next.next;
+             slow = slow.next;
+
+         }
+
+         if(fast.next == null) {
+             return slow;
+         }
+        else {
+            return slow.next;
+        }
+    }
+
+
+//    reverse a linked list
+//    https://leetcode.com/problems/reverse-linked-list/description/
+    public ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        ListNode curr = head;
+        ListNode nxt = curr.next;
+
+        while(curr != null) {
+            curr.next = prev;
+            prev = curr;
+            curr = nxt;
+
+            if (nxt != null) {
+                nxt = nxt.next;
+            }
+        }
+
+        this.head = prev;
+        return prev;
+    }
+
+//    cycle detection
+//     https://leetcode.com/problems/linked-list-cycle/
+    public boolean hasCycle(ListNode head) {
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+
+            if(slow == fast) return true;
+        }
+        return false;
+    }
+
+//    detect where the cycle begins
+//    https://leetcode.com/problems/linked-list-cycle-ii/description/
+
+    public ListNode detectCycle(ListNode head) {
+        int cycleLength = findCycleLength(head);
+        if (cycleLength == 0) return null;
+
+        ListNode a = head;
+        for (int i = 0; i < cycleLength; i++) {
+            a = a.next;
+        }
+
+        ListNode b = head;
+        while (a != b) {
+            a = a.next;
+            b = b.next;
+        }
+
+        return a;
+
+    }
+
+    public int findCycleLength(ListNode head) {
+        ListNode f = head;
+        ListNode s = head;
+        int count = 0;
+
+
+        while (f != null && f.next != null) {
+            f = f.next.next;
+            s = s.next;
+
+            if(s == f) {
+                do {
+                    s = s.next;
+                    count += 1;
+                }while (s != f);
+
+                return count;
+            }
+        }
+
+
+        return count;
+    }
+}
