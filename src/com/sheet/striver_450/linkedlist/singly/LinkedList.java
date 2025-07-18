@@ -1,5 +1,8 @@
 package com.sheet.striver_450.linkedlist.singly;
 
+import java.util.List;
+import java.util.Stack;
+
 public class LinkedList {
     public ListNode head;
     public int length;
@@ -208,5 +211,96 @@ public class LinkedList {
 
 
         return count;
+    }
+
+//    check for palindrome:
+//    https://leetcode.com/problems/palindrome-linked-list/description/
+    public boolean isPalindrome(ListNode head) {
+
+
+//        option 1 -> use stack to store first while traversing and then check again
+//        ListNode temp = head;
+//
+//        Stack<ListNode> store = new Stack<>();
+//
+//        while (temp != null) {
+//            store.push(temp);
+//            temp = temp.next;
+//        }
+//
+//        temp = head;
+//        while (temp != null) {
+//            ListNode check = store.pop();
+//            if (temp.val != check.val) {
+//                return false;
+//            }
+//            temp = temp.next;
+//        }
+//
+//        return true;
+
+
+//        option 2, linear time and constant space
+//        find the middle
+//        reverse from middle to end
+//        make 2 pointers - one from start other from middle - and check if the val will be same or not
+
+        ListNode middle = middleNode(head);
+        ListNode reversed = reverse(middle);
+
+        ListNode temp = head;
+
+        while (temp != middle) {
+            if(temp.val != reversed.val) {
+                return false;
+            }
+            temp = temp.next;
+            reversed = reversed.next;
+        }
+
+        return true;
+
+
+    }
+
+
+//    reverse between two endpoints in linked list:
+//    https://leetcode.com/problems/reverse-linked-list-ii/
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+
+        ListNode prev = null;
+        ListNode curr = head;
+        int i = 1;
+
+        while (i < left) {
+            prev = curr;
+            curr = curr.next;
+            i++;
+        }
+
+        ListNode x = prev;
+        ListNode y = curr;
+
+        ListNode next = curr.next;
+
+        for (int j = 0; curr != null && j < right - left + 1; j++) {
+
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+            if (next != null) {
+                next = next.next;
+            }
+        }
+
+        if(x == null) {
+            head = prev;
+        } else {
+            x.next = prev;
+
+        }
+
+        y.next = curr;
+        return head;
     }
 }
