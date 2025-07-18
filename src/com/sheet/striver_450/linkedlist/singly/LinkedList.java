@@ -303,4 +303,74 @@ public class LinkedList {
         y.next = curr;
         return head;
     }
+
+
+//    odd even linked list
+//    https://leetcode.com/problems/odd-even-linked-list/description/
+    public ListNode oddEvenList(ListNode head) {
+
+
+//        base case - head null or only one node
+        if(head == null) return null;
+        if(head.next == null) return head;
+
+        ListNode odd = head;
+        ListNode even = head.next;
+        ListNode temp = even;
+
+        while (even != null && even.next != null) {
+            odd.next = odd.next.next;
+            even.next = even.next.next;
+            odd = odd.next;
+            even = even.next;
+        }
+
+        odd.next = temp;
+        return head;
+    }
+
+//    Remove nth node from back of ll
+//    https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+
+
+        if(head == null) return null;
+
+        int count = listSize(head);
+        int m = count - n;
+
+        ListNode s = head;
+        ListNode f = head;
+
+        int fastCount = 0;
+        while (fastCount < n) {
+            f = f.next;
+            fastCount += 1;
+        }
+
+        if(f == null) {
+            return head.next;
+        }
+
+        while (f.next != null ) {
+            f = f.next;
+            s = s.next;
+        }
+        s.next = s.next.next;
+        return head;
+
+//        remove the slow element
+
+    }
+
+    private int listSize(ListNode head) {
+        int count = 0;
+        ListNode temp = head;
+
+        while (temp != null) {
+            count += 1;
+            temp = temp.next;
+        }
+        return count;
+    }
 }
