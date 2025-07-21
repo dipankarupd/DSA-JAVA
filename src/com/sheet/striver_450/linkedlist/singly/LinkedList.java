@@ -111,23 +111,17 @@ public class LinkedList {
     public ListNode middleNode(ListNode head) {
          if(head == null) return null;
          if(head.next == null) return head;
-         if(head.next.next == null) return head.next;
+
 
          ListNode fast = head;
          ListNode slow = head;
 
-         while (fast.next != null && fast.next.next != null ) {
+         while (fast != null && fast.next != null ) {
              fast = fast.next.next;
              slow = slow.next;
-
          }
 
-         if(fast.next == null) {
-             return slow;
-         }
-        else {
-            return slow.next;
-        }
+         return slow;
     }
 
 
@@ -362,7 +356,6 @@ public class LinkedList {
 //        remove the slow element
 
     }
-
     private int listSize(ListNode head) {
         int count = 0;
         ListNode temp = head;
@@ -372,5 +365,145 @@ public class LinkedList {
             temp = temp.next;
         }
         return count;
+    }
+
+
+//    add two linked list:
+//    eg: and numbers are stored in reversed order.
+//   l1 :=  1 -> 4 -> 8
+//   l2 := 7 -> 8 -> 5
+//    res := 9 -> 3 -> 3
+//    https://leetcode.com/problems/add-two-numbers/description/
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
+        ListNode dummy = new ListNode(0);
+        ListNode move = dummy;
+
+        int carry = 0;
+
+        while (l1 != null || l2 != null || carry != 0) {
+            int total = carry;
+            if(l1 != null) {
+                total += l1.val;
+                l1 = l1.next;
+            }
+            if(l2 != null) {
+                total += l2.val;
+                l2 = l2.next;
+            }
+            ListNode res = new ListNode(total % 10);
+            carry = total / 10;
+            move.next = res;
+            move = move.next;
+        }
+        return dummy.next;
+    }
+
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null) return head;
+
+        // step 1: find the middle element
+        ListNode mid = middleNode(head);
+
+        // step 2: sort the left half
+        ListNode left = sortList(head);
+
+        // step 3: sort the right half
+        ListNode right = sortList(mid);
+
+        // step 4: merge
+        return merge(left, right);
+    }
+
+    static ListNode merge(ListNode left, ListNode right) {
+
+        ListNode dummyHead = new ListNode();
+        ListNode traverse = dummyHead;
+
+        while (left != null && right != null) {
+
+            if(left.val < right.val) {
+                traverse.next = left;
+                traverse = traverse.next;
+                left = left.next;
+            }
+
+            if(left.val > right.val) {
+                traverse.next = right;
+                traverse = traverse.next;
+                right = right.next;
+            }
+        }
+
+        if(left != null) {
+            traverse.next = left;
+        } else {
+            traverse.next = right;
+        }
+
+        return dummyHead.next;
+    }
+
+
+//    intersection of 2 linked List:
+//    https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int l1 = listSize(headA);
+        int l2 = listSize(headB);
+        int skip = Math.abs(l1-l2);
+
+        if(l1 > l2) {
+//            skip from l1:
+            for (int i = 0; i < skip; i++) {
+                headA = headA.next;
+            }
+        }
+        else {
+//                skip from l2:
+            for (int i = 0; i < skip; i++) {
+                headB = headB.next;
+            }
+        }
+
+        if (headA.next == null || headB.next == null) return null;
+
+        while (headA != null && headB != null) {
+            if (headA.next == headB.next) {
+                return headA.next;
+            }
+            headA = headA.next;
+            headB = headB.next;
+        }
+
+        return null;
+    }
+
+//    rotating a linked list:
+    public ListNode rotateRight(ListNode head, int k) {
+
+//        get the size of the linked list
+        int n = listSize(head);
+
+        k = k % n;
+
+        if(head == null || head.next == null || k == 0) return head;
+
+        ListNode end = head;
+
+        while(end.next != null) {
+            end = end.next;
+        }
+        end.next = head;
+
+        ListNode temp = head;
+        for(int i=0; i < n-k-1; i++) {
+            temp = temp.next;
+        }
+
+        head = temp.next;
+        temp.next = null;
+
+    return head;
     }
 }
